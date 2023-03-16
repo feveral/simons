@@ -9,6 +9,7 @@ import com.memery.simons.entities.OrderBook;
 import com.memery.simons.ports.data_access.OrderBookGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Component
 public class BinanceOrderBookService implements OrderBookGateway {
 
     @Autowired
