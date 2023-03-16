@@ -1,23 +1,18 @@
 package com.memery.simons;
 
 import com.memery.simons.entities.MarketType;
-import com.memery.simons.ports.data_access.OrderBookGateway;
+import com.memery.simons.entities.Profit;
+import com.memery.simons.usecases.ArbitrageTrade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = { "com.memery.simons" })
 public class SimonsApplication implements CommandLineRunner {
 
 	@Autowired
-	@Qualifier("binanceOrderBookService")
-	private OrderBookGateway binanceOrderBookService;
-
-	@Autowired
-	@Qualifier("maxOrderBookService")
-	private OrderBookGateway maxOrderBookService;
+	private ArbitrageTrade arbitrageTrade;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SimonsApplication.class, args);
@@ -25,9 +20,12 @@ public class SimonsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		var binanceOrderBook = binanceOrderBookService.getLatestOrderBook(MarketType.BTCUSDT).block();
-		var maxOrderBook = maxOrderBookService.getLatestOrderBook(MarketType.BTCUSDT).block();
-		System.out.println(binanceOrderBook);
-		System.out.println(maxOrderBook);
+		while (true) {
+			Profit profit = arbitrageTrade.getProfit(MarketType.ETHUSDT).block();
+			System.out.printf("buyPrice: %s%n", profit.getBuyPrice());
+			System.out.printf("salePrice: %s%n", profit.getSalePrice());
+			System.out.printf("profit: %s%n", profit.getPoint());
+			System.out.println("----------------------------");
+		}
 	}
 }

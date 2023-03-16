@@ -1,5 +1,5 @@
 package com.memery.simons.entities;
 
 public enum MarketType {
-    BTCUSDT, ETHUSDT
+    BTCUSDT, ETHUSDT, SOLUSDT, DOGEUSDT
 }

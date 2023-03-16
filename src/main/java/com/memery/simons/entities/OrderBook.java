@@ -16,7 +16,7 @@ public class OrderBook {
 
     public Order getHighestPriceBid() {
         return bids.stream()
-                .max(Comparator.comparing(Order::getPrice))
+                .max(Comparator.comparing(order -> order.getPrice()))
                 .orElse(null);
     }
 
